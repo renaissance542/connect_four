@@ -2,13 +2,13 @@
 
 # stores boardstate, processes moves, and checks win conditions
 class Gameboard
+  # these are the starting coordinates of diagonals longer than 3, used in @diagonal_win?
   UPWARD_DIAGONALS = [[0, 0], [0, 1], [0, 2], [1, 0], [2, 0], [3, 0]].freeze
   DOWNWARD_DIAGONALS = [[0, 3], [0, 4], [0, 5], [1, 5], [2, 5], [3, 5]].freeze
 
   attr_reader :board, :player_one_turn
   def initialize
     @board = Array.new(7) { Array.new(7, 0) }
-    @game_over = false
     @player_one_turn = true
   end
 
@@ -20,9 +20,7 @@ class Gameboard
   end
 
   def game_over?
-    return true if @game_over # needs a test
-
-    @game_over = board_full? || check_for_win
+    board_full? || game_won?
   end
 
   private
@@ -32,24 +30,28 @@ class Gameboard
     @board.none? { |col| col.include?(0) }
   end
 
-  def check_for_win
-    check_columns || check_rows || check_diagonals
+  # This method was designed to take a board state and identify a win.
+  # It currently checks all rows/cols/diagonals each time. 6 + 7 + 12 = 25 checks
+  # It can be refactored to check only the rows and diagonals
+  # which intersect the last move. 1 + 1 + 2 = 4 checks
+  def game_won?
+    column_win? || row_win? || diagonal_win?
   end
 
-  def check_columns(cols = @board)
+  def column_win?(cols = @board)
     cols.each do |col|
       return true if check_arr(col)
     end
     false
   end
 
-  def check_rows
+  def row_win?
     transposed_board = @board.transpose # now the rows are columns
-    check_columns(transposed_board)
+    column_win?(transposed_board)
   end
 
-  def check_diagonals
-    check_columns(diagonals_to_columns)
+  def diagonal_win?
+    column_win?(diagonals_to_columns)
   end
 
   def diagonals_to_columns
