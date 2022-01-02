@@ -14,5 +14,7 @@ a separate design phase.  I design in code with comments
 and method names.  So I might still need to update my design
 procedure to better leverage TDD benefits.
 
-Play it live on Replit here:
+I think I successfully separated the UI from the game logic.  
 
+Play it live on Replit here:
+https://replit.com/@PhilippeRoy1/connectfour#.replit
