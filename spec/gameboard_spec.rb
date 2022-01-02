@@ -216,4 +216,26 @@ describe Gameboard do
       end
     end
   end
+
+  describe '#open_columns' do
+    context 'when columns 2 and 5 are full' do
+      before do
+        full_cols = [
+          [1, 0, 1, -1, 1, 0],
+          [-1, -1, 1, -1, 1, 1],
+          [1, -1, -1, 1, 0, 0],
+          [1, 1, 1, -1, 0, 0],
+          [1, -1, 1, 1, -1, -1],
+          [1, 1, -1, 0, 0, 0],
+          [-1, 1, 1, -1, 0, 0]
+        ]
+        game.instance_variable_set(:@board, full_cols)
+      end
+
+      it 'returns [1, 3, 4, 6, 7]' do
+        result = [1, 3, 4, 6, 7]
+        expect(game.open_columns).to eq(result)
+      end
+    end
+  end
 end

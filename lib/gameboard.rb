@@ -8,7 +8,7 @@ class Gameboard
 
   attr_reader :board, :player_one_turn
   def initialize
-    @board = Array.new(7) { Array.new(7, 0) }
+    @board = Array.new(7) { Array.new(6, 0) }
     @player_one_turn = true
   end
 
@@ -21,6 +21,14 @@ class Gameboard
 
   def game_over?
     board_full? || game_won?
+  end
+
+  def open_columns
+    open_cols = []
+    @board.each_with_index do |arr, i|
+      open_cols << i + 1 if arr.last.zero?
+    end
+    open_cols
   end
 
   private
