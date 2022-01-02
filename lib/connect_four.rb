@@ -2,7 +2,6 @@
 
 require_relative 'gameboard'
 require_relative 'console_ui'
-require 'pry-byebug'
 
 # game logic 
 class ConnectFour
